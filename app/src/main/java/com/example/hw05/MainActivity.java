@@ -3,6 +3,7 @@ package com.example.hw05;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setTitle("Main Activity");
+        
         pb_loadingSources = findViewById(R.id.pb_loadingSources);
         pb_loadingSources.setVisibility(View.VISIBLE);
 
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout ll_sources = findViewById(R.id.ll_sources);
 
             for (int i=0; i< result.size(); i++){
-                TextView tv_source = new TextView(MainActivity.this);
+                final TextView tv_source = new TextView(MainActivity.this);
                 tv_source.setTypeface(null, Typeface.BOLD);
                 tv_source.setTextSize(24);
                 tv_source.setPadding(20,20,20,20);
@@ -118,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
                 tv_source.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 tv_source.setText(result.get(i).name);
                 ll_sources.addView(tv_source);
+
+                tv_source.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                        Log.d("demo", "onClick: "+ tv_source.getText());
+                        startActivity(intent);
+                    }
+                });
             }
             Log.d("demo", "onPostExecute: " + result.toString());
         }
