@@ -3,6 +3,8 @@ package com.example.hw05;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -109,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i=0; i< result.size(); i++){
                 TextView tv_source = new TextView(MainActivity.this);
+                tv_source.setTypeface(null, Typeface.BOLD);
+                tv_source.setTextSize(24);
+                tv_source.setPadding(20,20,20,20);
+                tv_source.setBackgroundResource(R.drawable.tv_border);
                 tv_source.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 tv_source.setText(result.get(i).name);
                 ll_sources.addView(tv_source);
