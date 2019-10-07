@@ -106,31 +106,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final ArrayList<Source> result) {
+        protected void onPostExecute(final ArrayList<Source> sources) {
             pb_loadingSources.setVisibility(View.INVISIBLE);
 
             LinearLayout ll_sources = findViewById(R.id.ll_sources);
 
-            for (int i=0; i< result.size(); i++){
+            for (int i=0; i< sources.size(); i++){
                 final TextView tv_source = new TextView(MainActivity.this);
                 tv_source.setTypeface(null, Typeface.BOLD);
                 tv_source.setTextSize(24);
                 tv_source.setPadding(20,20,20,20);
                 tv_source.setBackgroundResource(R.drawable.tv_border);
                 tv_source.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                tv_source.setText(result.get(i).name);
+                tv_source.setText(sources.get(i).name);
                 ll_sources.addView(tv_source);
 
+                final int finalI = i;
                 tv_source.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("sourceName", sources.get(finalI));
+                        intent.putExtra("toNews", bundle);
                         Log.d("demo", "onClick: "+ tv_source.getText());
                         startActivity(intent);
                     }
                 });
             }
-            Log.d("demo", "onPostExecute: " + result.toString());
+            Log.d("demo", "onPostExecute: " + sources.toString());
         }
 
 
