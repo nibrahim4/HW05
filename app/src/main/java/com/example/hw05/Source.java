@@ -1,10 +1,12 @@
 package com.example.hw05;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Source implements Serializable {
 
-    public int id;
+    public String id;
     public String name;
 
     @Override

@@ -12,7 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +26,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import static android.widget.AdapterView.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,12 +90,11 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject articleJSON = sources.getJSONObject(i);
 
                         Source source = new Source();
+                        source.id = articleJSON.getString("id");
                         source.name= articleJSON.getString("name");
 
                         result.add(source);
-
                     }
-
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -109,32 +114,33 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(final ArrayList<Source> sources) {
             pb_loadingSources.setVisibility(View.INVISIBLE);
 
-            LinearLayout ll_sources = findViewById(R.id.ll_sources);
+            ListView lv_sources = findViewById(R.id.lv_sources);
+
+            final ArrayList<String> sourceNames = new ArrayList<String>();
+
 
             for (int i=0; i< sources.size(); i++){
-                final TextView tv_source = new TextView(MainActivity.this);
-                tv_source.setTypeface(null, Typeface.BOLD);
-                tv_source.setTextSize(24);
-                tv_source.setPadding(20,20,20,20);
-                tv_source.setBackgroundResource(R.drawable.tv_border);
-                tv_source.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                tv_source.setText(sources.get(i).name);
-                ll_sources.addView(tv_source);
+              sourceNames.add(sources.get(i).name);
 
-                final int finalI = i;
-                tv_source.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("sourceName", sources.get(finalI));
-                        intent.putExtra("toNews", bundle);
-                        Log.d("demo", "onClick: "+ tv_source.getText());
-                        startActivity(intent);
-                    }
-                });
             }
-            Log.d("demo", "onPostExecute: " + sources.toString());
+
+            ArrayAdapter ad = new ArrayAdapter(MainActivity.this,
+                    android.R.layout.simple_list_item_1, sourceNames);
+
+            // give adapter to ListView UI element to render
+            lv_sources.setAdapter(ad);
+
+
+            lv_sources.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("sourceName", sources.get(position));
+                    intent.putExtra("toNews", bundle);
+                    startActivity(intent);
+                }
+            });
         }
 
 
