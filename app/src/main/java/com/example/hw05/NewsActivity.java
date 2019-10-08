@@ -29,6 +29,7 @@ public class NewsActivity extends AppCompatActivity {
 
     public Bundle extrasFromMain;
     public ProgressBar pb_loadingNews;
+    public Source selectedSource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class NewsActivity extends AppCompatActivity {
         pb_loadingNews = findViewById(R.id.pb_loadingNews);
 
         extrasFromMain = getIntent().getExtras().getBundle("toNews");
-        Source selectedSource = (Source) extrasFromMain.getSerializable("sourceName");
+        selectedSource = (Source) extrasFromMain.getSerializable("sourceName");
         setTitle(selectedSource.name);
 
 
@@ -93,37 +94,12 @@ public class NewsActivity extends AppCompatActivity {
 
             ListView lv_articles = findViewById(R.id.lv_articles);
 
-            ArrayAdapter ad = new ArrayAdapter(NewsActivity.this,
-                    android.R.layout.simple_list_item_1, news);
+            NewsAdapter newsAdapter = new NewsAdapter(NewsActivity.this, R.layout.news_item, news);
 
             // give adapter to ListView UI element to render
-            lv_articles.setAdapter(ad);
-
-            for (int i = 0; i < news.size(); i++) {
-                final TextView tv_source = new TextView(NewsActivity.this);
-                tv_source.setTypeface(null, Typeface.BOLD);
-                tv_source.setTextSize(24);
-                tv_source.setPadding(20,20,20,20);
-                tv_source.setBackgroundResource(R.drawable.tv_border);
-                tv_source.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                tv_source.setText(news.get(i).title);
-                //lv_articles.addView(tv_source);
-
-                final int finalI = i;
-                //  tv_source.setOnClickListener(new View.OnClickListener() {
-                //  @Override
-                //  public void onClick(View view) {
-                        /*Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("sourceName", sources.get(finalI));
-                        intent.putExtra("toNews", bundle);
-                        Log.d("demo", "onClick: "+ tv_source.getText());
-                        startActivity(intent);*/
-                //  }
-                //  });
+            lv_articles.setAdapter(newsAdapter);
             }
-            pb_loadingNews.setVisibility(View.INVISIBLE);
-            Log.d("demo", "onPostExecute: " + news.toString());
-        }
+
+
     }
     }
