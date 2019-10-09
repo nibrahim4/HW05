@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -70,6 +71,7 @@ public class NewsActivity extends AppCompatActivity {
                         news.author = articleJSON.getString("author");
                         news.publishedAt = articleJSON.getString("publishedAt");
                         news.urlToImage = articleJSON.getString("urlToImage");
+                        news.url = articleJSON.getString("url");
                         result.add(news);
 
                     }
@@ -91,7 +93,7 @@ public class NewsActivity extends AppCompatActivity {
 
 
         @Override
-        protected void onPostExecute( ArrayList<News> news) {
+        protected void onPostExecute(final ArrayList<News> news) {
             pb_loadingNews.setVisibility(View.INVISIBLE);
 
             ListView lv_articles = findViewById(R.id.lv_articles);
@@ -100,8 +102,17 @@ public class NewsActivity extends AppCompatActivity {
 
             // give adapter to ListView UI element to render
             lv_articles.setAdapter(newsAdapter);
-            }
 
-
+            lv_articles.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(NewsActivity.this, WebViewActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("news", news.get(position));
+                    intent.putExtra("toWebView", bundle);
+                    startActivity(intent);
+                }
+            });
+        }
     }
-    }
+}
