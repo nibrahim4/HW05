@@ -36,7 +36,7 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
 
         pb_loadingNews = findViewById(R.id.pb_loadingNews);
-
+        pb_loadingNews.setVisibility(View.VISIBLE);
         extrasFromMain = getIntent().getExtras().getBundle("toNews");
         selectedSource = (Source) extrasFromMain.getSerializable("sourceName");
         setTitle(selectedSource.name);
@@ -53,9 +53,9 @@ public class NewsActivity extends AppCompatActivity {
             ArrayList<News> result = new ArrayList<News>();
             try {
                 URL url = new URL(params[0]);
-                Log.d("demo", "doInBackground: " + url);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
+
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String json = IOUtils.toString(connection.getInputStream(), "UTF-8");
                     JSONObject root = new JSONObject(json);
@@ -67,7 +67,9 @@ public class NewsActivity extends AppCompatActivity {
 
                         News news = new News();
                         news.title = articleJSON.getString("title");
-
+                        news.author = articleJSON.getString("author");
+                        news.publishedAt = articleJSON.getString("publishedAt");
+                        news.urlToImage = articleJSON.getString("urlToImage");
                         result.add(news);
 
                     }

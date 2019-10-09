@@ -6,21 +6,23 @@
 
     <ImageView
         android:id="@+id/iv_urlToImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="235dp"
+        android:layout_above="@+id/tv_author"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="27dp"
         android:layout_marginTop="25dp"
+        android:layout_marginBottom="-146dp"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="73dp"
+        android:layout_width="228dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="31dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="25dp"
         android:layout_toEndOf="@+id/iv_urlToImage"
@@ -30,10 +32,12 @@
         android:id="@+id/tv_author"
         android:layout_width="179dp"
         android:layout_height="32dp"
-        android:layout_below="@+id/iv_urlToImage"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="45dp"
+        android:layout_toStartOf="@+id/tv_newsDate"
         android:text="@string/tv_author" />
 
     <TextView
@@ -42,7 +46,7 @@
         android:layout_height="35dp"
         android:layout_below="@+id/tv_title"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="35dp"
         android:text="@string/tv_newsDate" />
 </RelativeLayout>
