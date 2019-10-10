@@ -43,12 +43,22 @@ public class NewsAdapter extends ArrayAdapter<News> {
             tv_author.setText(news.author);
         }
 
-        ImageView iv_urlToImage = convertView.findViewById(R.id.iv_urlToImage);
-        if(news.urlToImage != null || !news.urlToImage.equals("")){
-            Picasso.with(convertView.getContext()).load(news.urlToImage).into(iv_urlToImage);
-        }else{
+        TextView tv_publishedDate = convertView.findViewById(R.id.tv_newsDate);
+        if(news.publishedAt != null && !news.publishedAt.equals("null")){
+            tv_publishedDate.setText(news.publishedAt);
+        }
+
+        try{
+            ImageView iv_urlToImage = convertView.findViewById(R.id.iv_urlToImage);
+            if(news.urlToImage != null || !news.urlToImage.equals("")){
+                Picasso.with(convertView.getContext()).load(news.urlToImage).into(iv_urlToImage);
+            }else{
+                Toast.makeText(convertView.getContext(), "No image to load!", Toast.LENGTH_SHORT).show();
+            }
+        }catch(Exception e){
             Toast.makeText(convertView.getContext(), "No image to load!", Toast.LENGTH_SHORT).show();
         }
+
 
         return convertView;
     }
