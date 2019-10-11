@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -11,6 +12,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     public Bundle extrasFromNews;
     public News selectedNews;
+    public WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +22,8 @@ public class WebViewActivity extends AppCompatActivity {
         extrasFromNews = getIntent().getExtras().getBundle("toWebView");
         selectedNews = (News) extrasFromNews.getSerializable("news");
         Log.d("demo", "onCreate: " + selectedNews.url);
-        WebView webView = new WebView(WebViewActivity.this);
-        webView.setWebViewClient(new WebViewClient());
+        webView = findViewById(R.id.webView);
+        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         webView.loadUrl(selectedNews.url);
 
     }
